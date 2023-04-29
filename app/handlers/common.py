@@ -9,7 +9,7 @@ from work_with_api import create_user
 async def cmd_start(message: types.Message, state: FSMContext):
     await state.finish()
     username = message.from_user.username
-    create_user(f'@{username}')
+    await create_user(f'@{username}')
     await message.answer('че надо', reply_markup=start_keyboard())
 
 
