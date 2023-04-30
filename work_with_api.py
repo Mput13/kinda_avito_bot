@@ -13,10 +13,11 @@ async def get_lots(username, user_lots=False, category=None):
             res = await client.get(f'http://127.0.0.1:8005//api/v2/lots', params={'category': category})
             return res.json()
         elif user_lots:
-            res = await client.get(f'http://127.0.0.1:8005//api/v2/lots?watcher={username}&user_lots=True')
+            res = await client.get(f'http://127.0.0.1:8005//api/v2/lots', params={'watcher': username,
+                                                                                  'user_lots': True})
             return res.json()
         else:
-            res = await client.get(f'http://127.0.0.1:8005//api/v2/lots?watcher={username}')
+            res = await client.get(f'http://127.0.0.1:8005//api/v2/lots', params={'watcher': username})
             return res.json()
 
 
@@ -43,14 +44,6 @@ async def delete_lot(id, user):
     async with httpx.AsyncClient() as client:
         res = await client.delete(f'http://127.0.0.1:8005//api/v2/lots/{id}', params={'user': user})
     return res.json()
-
-
-# def add_images(path, lot_id, files):
-#     async with httpx.AsyncClient() as client:
-#         data = json.dumps({"image": files, "path": path, "lot_id": lot_id})
-#         res = await client.post('http://127.0.0.1:8005//api/v2/images', data=data, headers={
-#             'Content-type': 'application/json', 'Accept': 'text/plain'})
-#         return res.json()
 
 
 async def get_photos_of_lot(lot_id):

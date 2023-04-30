@@ -83,5 +83,5 @@ def register_handlers_lot_creating(dp: Dispatcher):
     dp.register_message_handler(lot_price_chosen, state=CreateLot.waiting_for_lot_price)
     dp.register_message_handler(lot_description_chosen, state=CreateLot.waiting_for_lot_description)
     dp.register_message_handler(lot_category_chosen, state=CreateLot.waiting_for_lot_category)
-    dp.register_message_handler(lot_images_chosen, state=CreateLot.waiting_for_lot_images, is_media_group=True,
-                                content_types=types.ContentType.ANY)
+    dp.register_message_handler(lot_images_chosen, state=CreateLot.waiting_for_lot_images,
+                                content_types=types.ContentType.PHOTO)

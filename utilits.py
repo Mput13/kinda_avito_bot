@@ -1,6 +1,7 @@
 import io
 import os
 import tempfile
+import uuid
 from base64 import encodebytes
 
 from aiogram import types
@@ -23,7 +24,8 @@ def get_bite_image(file):
 def create_media_group(lst):
     media = types.MediaGroup()
     for file in lst:
-        with open('./newfile.jpg', 'wb') as target:
+        name = f'./files/{uuid.uuid4()}.jpeg'
+        with open(name, 'wb') as target:
             target.write(file)
-            media.attach_photo(types.InputFile('./newfile.jpg'))
+            media.attach_photo(types.InputFile(name))
     return media

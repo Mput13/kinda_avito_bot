@@ -1,3 +1,5 @@
+import pprint
+
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
@@ -16,8 +18,9 @@ async def category_peaking_start(message: types.Message, state: FSMContext):
     keyboard = types.ReplyKeyboardMarkup()
     categories = await get_categories()
     for category in categories['categories']:
-        button = types.KeyboardButton(text=category)
-        keyboard.add(button)
+        if category:
+            button = types.KeyboardButton(text=category)
+            keyboard.add(button)
     await message.bot.send_message(message.from_user.id, "Выберите категорию", reply_markup=keyboard)
     await state.set_state(WatchByCategory.waiting_for_category.state)
 
