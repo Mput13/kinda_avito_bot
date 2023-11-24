@@ -25,17 +25,11 @@ async def category_peaking_start(message: types.Message, state: FSMContext):
     await state.set_state(WatchByCategory.waiting_for_category.state)
 
 
-async def category_chosen(message: types.Message, state: FSMContext):
-    result = await get_lots(f'@{message.from_user.username}', category=message.text)
-    await message.answer(f'Объявления по категории {message.text}', reply_markup=types.ReplyKeyboardRemove())
-    if len(result['lots']) != 0:
-        for lot in result['lots']:
-            await bot.send_media_group(message.chat.id,
-                                       media=create_media_group(await get_photos_of_lot(lot['id'])))
-            await message.answer(compile_lot_message(lot), reply_markup=start_keyboard())
-    else:
-        await message.answer('Объявлений нет', reply_markup=start_keyboard())
-    await state.finish()
+async def category_chosen(message: types.Message):
+    lat = message.location.latitude
+    long = message.location.longitude
+    geolocator = Nominatim(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) Yowser/2.5 Safari/537.36")
+    location = geolocator.reverse(str(lat), str(long))
 
 
 def register_handlers_watch_by_category(dp: Dispatcher):

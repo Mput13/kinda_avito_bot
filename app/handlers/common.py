@@ -10,7 +10,7 @@ async def cmd_start(message: types.Message, state: FSMContext):
     await state.finish()
     username = message.from_user.username
     await create_user(f'@{username}')
-    await message.answer('че надо', reply_markup=start_keyboard())
+    await message.answer('Главное меню', reply_markup=start_keyboard())
 
 
 async def cmd_cancel(message: types.Message, state: FSMContext):

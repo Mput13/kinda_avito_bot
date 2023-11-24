@@ -1,5 +1,16 @@
-import httpx
+import pprint
 
+import httpx
+import requests
+
+
+def get_city_from_coordinates(latitude, longitude):
+    url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={latitude}&lon={longitude}"
+    response = requests.get(url)
+    data = response.json()
+    return data["address"].get("city")
+
+print(get_city_from_coordinates("61.0093556", "69.0308561"))
 
 async def create_user(username):
     async with httpx.AsyncClient() as client:
