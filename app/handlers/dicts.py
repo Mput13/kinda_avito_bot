@@ -54,6 +54,7 @@ var = {'Нижневартовск': [{'adress': 'г.Нижневартовск,
                'list': ['Батарейки'],
                'type': 'Пункт приёма батареек в магазине "Перекрёсток"'}]}
 
+cities = var.keys()
 # new_dct = {}
 # for el in var:
 #     city = el["adress"].split(", ")[0].strip().replace("г.", "")
