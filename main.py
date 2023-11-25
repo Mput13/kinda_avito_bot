@@ -11,7 +11,7 @@ from utilits import compile_lot_message
 from work_with_api import get_lots, get_categories
 
 # Объект бота
-bot = Bot(token="6086685442:AAEmMuHTw8ceN8dczxvaN8HujPbsHBE25Rk")
+bot = Bot(token="6086685442:AAEmMuHTw8ceN8dczxvaN8HujPbsHBE25Rk", parse_mode="HTML")
 # Диспетчер для бота
 dp = Dispatcher(bot, storage=MemoryStorage())
 # Включаем логирование, чтобы не пропустить важные сообщения

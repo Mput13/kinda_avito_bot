@@ -4,13 +4,12 @@ from aiogram.dispatcher.filters import Text
 
 from app.handlers.dicts import var
 from keyboards import start_keyboard
-from work_with_api import create_user, get_city_from_coordinates
+from work_with_api import get_city_from_coordinates, get_coordinates
 
 
 async def cmd_start(message: types.Message, state: FSMContext):
     await state.finish()
     username = message.from_user.username
-    await create_user(f'@{username}')
     await message.answer('Главное меню', reply_markup=start_keyboard())
 
 
@@ -25,8 +24,10 @@ async def handle_location(message: types.Message, state: FSMContext):
     lat = message.location.latitude
     long = message.location.longitude
     city = get_city_from_coordinates(lat, long).replace('городской округ ', '')
+    # lat, long = get_coordinates(['adress'])
     for el in var[city]:
-        text = f"""{el['type']}
+        text = f"""{types.ContentType.LOCATION()}
+{el['type']}
     {el['adress']}
     Можно сдать: {', '.join(el['list'])}"""
         await message.answer(text)

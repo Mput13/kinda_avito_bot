@@ -10,10 +10,8 @@ from aiogram.dispatcher.middlewares import BaseMiddleware
 from aiogram.types import BotCommand
 
 from app.handlers.common import register_handlers_common
-from app.handlers.lot_creating import register_handlers_lot_creating
+from app.handlers.articles_watching import register_handlers_lot_creating
 from app.handlers.lot_watching import register_handlers_lot_watching
-from app.handlers.user_lot_watching import register_handlers_lot_deleting
-from app.handlers.watch_by_category import register_handlers_watch_by_category
 
 logger = logging.getLogger(__name__)
 
@@ -39,15 +37,13 @@ async def main():
     parser.read("config/bot.ini")
 
     # Объявление и инициализация объектов бота и диспетчера
-    bot = Bot(token=parser.get('TG_BOT', 'token'))
+    bot = Bot(token=parser.get('TG_BOT', 'token'), parse_mode="HTML")
     dp = Dispatcher(bot, storage=MemoryStorage())
 
     # Регистрация хэндлеров
     register_handlers_common(dp)
     register_handlers_lot_creating(dp)
     register_handlers_lot_watching(dp)
-    register_handlers_watch_by_category(dp)
-    register_handlers_lot_deleting(dp)
 
     # Установка команд бота
     await set_commands(bot)

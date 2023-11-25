@@ -5,13 +5,51 @@ import uuid
 from base64 import encodebytes
 
 from aiogram import types
+# from geopy.geocoders import Nominatim
+# geolocator = Nominatim(user_agent="Tester")
+# adress = str(input('Введите адрес: \n'))
+# location = geolocator.geocode(adress)
+# print(location.latitude, location.longitude)
+
+categories = '''бумага
+пластик
+стекло
+металл
+тетра-пак
+одежда
+лампочки
+крышечки
+техника
+батареки
+шины
+опасное
+другое'''.split('\n')
 
 
-def compile_lot_message(lot: dict):
-    return f"""Объявление №{lot['id']} ⬆️⬆️⬆️
-{lot['title']} {lot['price']}
-{lot['description']}
-{lot['creator']}"""
+def transliterate(text):
+    # Словарь для транслитерации
+    translit_dict = {
+        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g',
+        'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh',
+        'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k',
+        'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
+        'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+        'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'ts',
+        'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '',
+        'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu',
+        'я': 'ya',
+    }
+
+    result = ''
+    for char in text:
+        if char.lower() in translit_dict:
+            if char.isupper():
+                result += translit_dict[char.lower()].capitalize()
+            else:
+                result += translit_dict[char]
+        else:
+            result += char
+    return result
 
 
 def get_bite_image(file):

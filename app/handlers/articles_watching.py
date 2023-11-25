@@ -1,8 +1,8 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
-
-from app.handlers import dicts
+from app.handlers.articles import articles
+from keyboards import start_keyboard
 
 
 class CreateLot(StatesGroup):
@@ -10,17 +10,14 @@ class CreateLot(StatesGroup):
 
 
 async def lot_creating_start(message: types.Message, state: FSMContext):
+    keyboard = [[types.KeyboardButton(text=el)] for el in articles.keys()]
     await message.bot.send_message(message.from_user.id, "Выбирите название статьи",
-                                   reply_markup=types.ReplyKeyboardMarkup(
-                                       [[types.KeyboardButton(text="Тут будет ваша статья 1")],
-                                        [types.KeyboardButton(text="Тут будет ваша статья 2")],
-                                        [types.KeyboardButton(text="Тут будет ваша статья 3")],
-                                        [types.KeyboardButton(text="Тут будет ваша статья 4")]]))
+                                   reply_markup=types.ReplyKeyboardMarkup(keyboard))
     await state.set_state(CreateLot.article_name.state)
 
 
 async def title_chosen(message: types.Message, state: FSMContext):
-    await message.answer(dicts.articles[message.text])
+    await message.answer(articles[message.text], reply_markup=start_keyboard())
     await state.finish()
 
 
